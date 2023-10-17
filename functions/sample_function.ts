@@ -1,6 +1,8 @@
 import { DefineFunction, Schema, SlackFunction } from "deno-slack-sdk/mod.ts";
 import SampleObjectDatastore from "../datastores/sample_datastore.ts";
 
+import {getRandomString} from "https://raw.githubusercontent.com/mayankchoubey/deno-random-id/main/mod.ts";
+
 /**
  * Functions are reusable building blocks of automation that accept
  * inputs, perform calculations, and provide outputs. Functions can
@@ -46,15 +48,17 @@ export default SlackFunction(
   SampleFunctionDefinition,
   async ({ inputs, client }) => {
     const uuid = crypto.randomUUID();
+    const url = 'https://worker.dispox.co/healthcheck';
 
-    const response = await fetch('https://worker.dispox.co/healthcheck');
+    const response = await fetch(url);
     const data = await response.text();
 
     // inputs.user is set from the interactivity_context defined in sample_trigger.ts
     // https://api.slack.com/automation/forms#add-interactivity
     const updatedMsg = `:wave: ` + `<@${inputs.user}>` +
       ` submitted the following message: \n\n>${inputs.message}\n` +
-      `The result is ${response} %% ${data}`;
+      `I've called ${url}. The result is : ${data}\n` +
+      `A random string : ${getRandomString(50)}`;
 
     const sampleObject = {
       original_msg: inputs.message,

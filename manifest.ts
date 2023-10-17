@@ -12,7 +12,7 @@ export default Manifest({
   description: "A template for building Slack apps with Deno",
   icon: "assets/default_new_app_icon.png",
   workflows: [SampleWorkflow],
-  outgoingDomains: ["worker.dispox.co"],
+  outgoingDomains: ["raw.githubusercontent.com", "worker.dispox.co"],
   datastores: [SampleObjectDatastore],
   botScopes: [
     "commands",
